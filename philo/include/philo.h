@@ -34,6 +34,7 @@ typedef struct s_data
 	unsigned long	start;
 	int		*forks;
 	int		shutdown;
+	int		*status;
 	pthread_mutex_t	*lock;
 	pthread_mutex_t	stdout_lock;
 	pthread_t	*tid;
@@ -42,7 +43,6 @@ typedef struct s_data
 typedef struct s_philosophers 
 {
 	int		id;
-	long		time_of_death;
 	int		nb_eat;
 	t_data		*data;
 }		t_philosophers;

@@ -18,6 +18,7 @@ int	main(int argc, char **argv)
 	free(data.tid);
 	free(data.forks);
 	free(data.lock);
+	free(data.status);
 	free(philo);
 	return (0);
 }

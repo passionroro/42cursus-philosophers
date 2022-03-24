@@ -33,11 +33,15 @@ int	data_init(t_data *data, t_philosophers *philo)
 	data->lock = malloc(sizeof(pthread_mutex_t) * data->size);
 	if (!data->lock)
 		return (ERR_MALLOC);
+	data->status = malloc(sizeof(int) * data->size);
+	if (!data->lock)
+		return (ERR_MALLOC);
 	i = -1;
 	while (++i < data->size)
 	{
 		pthread_mutex_init(&data->lock[i], NULL);
 		data->forks[i] = 0;
+		data->status[i] = 0;
 	}
 	return (philo_init(data, philo));
 }
