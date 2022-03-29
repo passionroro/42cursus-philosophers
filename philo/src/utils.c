@@ -1,9 +1,16 @@
 #include "../include/philo.h"
 
+unsigned long	current_time(unsigned long start)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000) - start);
+}
+
 void	print_action(int num, int status, unsigned long start)
 {
 	char			*str;
-	struct timeval	tv;
 
 	if (status == THINK)
 		str = "is thinking";
@@ -11,12 +18,11 @@ void	print_action(int num, int status, unsigned long start)
 		str = "has taken a fork";
 	if (status == EAT)
 		str = "is eating";
-	if (status == DEAD)
+	if (status == DIED)
 		str = "died";
 	if (status == SLEEP)
 		str = "is sleeping";
-	gettimeofday(&tv, NULL);
-	printf("%ld %d %s\n", (tv.tv_sec * 1000) + (tv.tv_usec / 1000) - start, num, str);
+	printf("%ld %d %s\n", current_time(start), num, str);
 }
 
 int	ft_atoi(const char *str)

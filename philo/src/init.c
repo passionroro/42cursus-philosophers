@@ -15,8 +15,12 @@ int	philo_init(t_data *data, t_philosophers *philo)
 	}
 	i = -1;
 	while (++i < data->size)
+	{
 		if (pthread_join(data->tid[i], NULL))
 			return (ERR_JOIN);
+		pthread_mutex_destroy(&data->lock[i]);
+
+	}
 	return (0);
 }
 
@@ -30,6 +34,9 @@ int	data_init(t_data *data, t_philosophers *philo)
 	data->forks = malloc(sizeof(int) * data->size);
 	if (!data->forks)
 		return (ERR_MALLOC);
+	data->last_meal_time = malloc(sizeof(unsigned long) * data->size);
+	if (!data->last_meal_time)
+		return (ERR_MALLOC);
 	data->lock = malloc(sizeof(pthread_mutex_t) * data->size);
 	if (!data->lock)
 		return (ERR_MALLOC);
@@ -41,6 +48,7 @@ int	data_init(t_data *data, t_philosophers *philo)
 	{
 		pthread_mutex_init(&data->lock[i], NULL);
 		data->forks[i] = 0;
+		data->last_meal_time[i] = current_time(data->start);
 		data->status[i] = 0;
 	}
 	return (philo_init(data, philo));
@@ -63,5 +71,6 @@ int	var_init(t_data *d, char **argv, int argc)
 		d->must_eat = ft_atoi(argv[5]);
 	gettimeofday(&tv, NULL);
 	d->start = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	d->shutdown = 0;
 	return (0);
 }

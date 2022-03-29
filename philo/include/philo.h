@@ -18,7 +18,7 @@ enum	e_rror
 enum	e_status 
 {
 	FORK = 0,
-	DEAD,
+	DIED,
 	THINK,
 	SLEEP,
 	EAT,
@@ -33,6 +33,7 @@ typedef struct s_data
 	int		must_eat;
 	unsigned long	start;
 	int		*forks;
+	unsigned long	*last_meal_time;
 	int		shutdown;
 	int		*status;
 	pthread_mutex_t	*lock;
@@ -48,12 +49,16 @@ typedef struct s_philosophers
 }		t_philosophers;
 
 void	*routine(void *data);
-void	ford_pickup(t_philosophers *philo, t_data *data, int id);
-void	eat_and_drop(t_philosophers *philo, t_data *data, int id);
+void	ford_pickup(t_data *data, int id);
+void	eat_and_drop(t_data *data, int id);
+int	are_they_alive(t_data *d, int id);
 int	var_init(t_data *d, char **argv, int argc);
 int	data_init(t_data *data, t_philosophers *philo);
 int	philo_init(t_data *data, t_philosophers *philo);
 void	print_action(int num, int status, unsigned long start);
 int	ft_atoi(const char *str);
+unsigned long 	current_time(unsigned long start);
+void	*destroy_philo(t_data *data, int id);
+
 
 #endif
