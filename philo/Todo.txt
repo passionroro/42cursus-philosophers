@@ -9,4 +9,4 @@ in routine.c
 - philo_is_alive : checks if the difference between current_time and last_meal_time is superior to time_of_death
 - find a way to exit all the threads at the same time 
 - philo_is_alive could directly return philo_detroy if the philo is dead
-- to destroy a philo : mutex destroy
+- to destroy a philo : mutex destroy (could be smart to do it while joining threads)
