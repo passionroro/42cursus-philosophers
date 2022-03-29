@@ -1,0 +1,12 @@
+in include/philo.h
+- add in t_data an array of unsigned long called last_meal_time
+
+in init.c
+- malloc, initialise to 0 and free
+
+in routine.c
+- everytime a philo eats, change the value of last_meal_time[id-1] to current_time()
+- philo_is_alive : checks if the difference between current_time and last_meal_time is superior to time_of_death
+- find a way to exit all the threads at the same time 
+- philo_is_alive could directly return philo_detroy if the philo is dead
+- to destroy a philo : mutex destroy
