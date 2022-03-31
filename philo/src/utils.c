@@ -8,6 +8,12 @@ unsigned long	current_time(unsigned long start)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000) - start);
 }
 
+void	u_sleep(unsigned long time, t_data *data)
+{
+	while (current_time(data->start) < time)
+		usleep(100);
+}
+
 void	print_action(int num, int status, unsigned long start)
 {
 	char			*str;

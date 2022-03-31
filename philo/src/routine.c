@@ -2,9 +2,14 @@
 
 int	are_they_alive(t_data *d, int id)
 {
-	if (current_time(d->start) - d->last_meal_time[id] > (unsigned long)d->die)
+	if (d->shutdown == 1)
+		return (1);
+	if ((unsigned long)d->die + d->last_meal_time[id - 1] < current_time(d->start))
 	{
 		print_action(id, DIED, d->start);
+		printf("CURRENT %lu\n", current_time(d->start));
+	       	printf("LAST MEAL TIME %lu\n", d->last_meal_time[id - 1]);
+	       	printf("TIME TO DIE %lu\n", (unsigned long)d->die);
 		d->shutdown = 1;
 		return (1);
 	}
@@ -43,7 +48,9 @@ void	eat_and_drop(t_data *data, int id)
 	if (data->status[id - 1] != 2 || data->shutdown == 1)
 		return ;
 	print_action(id, EAT, data->start);
-	usleep(data->eat * 1000);
+	u_sleep(data->eat, data);
+	print_action(id, SLEEP, data->start);
+	u_sleep(data->sleep, data);
 	pthread_mutex_lock(&data->lock[id - 1]);
 	data->forks[id - 1] = 0;
 	data->status[id - 1] = 0;
@@ -54,7 +61,6 @@ void	eat_and_drop(t_data *data, int id)
 	pthread_mutex_lock(&data->lock[id]);
 	data->forks[id] = 0;
 	pthread_mutex_unlock(&data->lock[id]);
-	print_action(id, SLEEP, data->start);
 }
 
 void	*routine(void *data)
@@ -64,8 +70,8 @@ void	*routine(void *data)
 	philo = (t_philosophers *)data;
 	if (!(philo->id % 2))
 	{
-		usleep(philo->data->eat * 1000);
 		print_action(philo->id, THINK, philo->data->start);
+		u_sleep(philo->data->eat / 2, data);
 	}
 	while (1)
 	{

@@ -58,6 +58,7 @@ int	philo_init(t_data *data, t_philosophers *philo);
 void	print_action(int num, int status, unsigned long start);
 int	ft_atoi(const char *str);
 unsigned long 	current_time(unsigned long start);
+void	u_sleep(unsigned long time, t_data *data);
 void	*destroy_philo(t_data *data, int id);
 
 
