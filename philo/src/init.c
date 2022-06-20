@@ -11,8 +11,6 @@ int	philo_init(t_data *data, t_philosophers *philo)
 	{
 		philo[i].id = i + 1;
 		philo[i].nb_eat = 0;
-		philo[i].time_of_death = current_time() + data->die;
-		printf("time of death : %ld\n", philo[i].time_of_death);
 		philo[i].data = data;
 		if (pthread_create(&data->tid[i], NULL, routine, (void *)&philo[i]))
 			return (ERR_THREAD);
@@ -24,12 +22,13 @@ int	philo_init(t_data *data, t_philosophers *philo)
 	return (0);
 }
 
-int	data_init(t_data *data, t_philosophers *philo)
+int	data_malloc(t_data *data)
 {
-	int	i;
-
 	data->tid = malloc(sizeof(pthread_t) * data->size);
 	if (!data->tid)
+		return (ERR_MALLOC);
+	data->time_of_death = malloc(sizeof(long) * data->size);
+	if (!data->time_of_death)
 		return (ERR_MALLOC);
 	data->forks = malloc(sizeof(int) * data->size);
 	if (!data->forks)
@@ -37,18 +36,40 @@ int	data_init(t_data *data, t_philosophers *philo)
 	data->lock = malloc(sizeof(pthread_mutex_t) * data->size);
 	if (!data->lock)
 		return (ERR_MALLOC);
-	pthread_mutex_init(&data->print, NULL);
+	data->death = malloc(sizeof(pthread_mutex_t) * data->size);
+	if (!data->death)
+		return (ERR_MALLOC);
 	data->status = malloc(sizeof(int) * data->size);
 	if (!data->status)
 		return (ERR_MALLOC);
+	return (0);
+}
+
+int	data_init(t_data *data)
+{
+	int	i;
+
+	if (data_malloc(data))
+		return (ERR_MALLOC);
+	pthread_mutex_init(&data->print, NULL);
 	i = -1;
 	while (++i < data->size)
 	{
+		pthread_mutex_init(&data->death[i], NULL);
 		pthread_mutex_init(&data->lock[i], NULL);
 		data->forks[i] = 0;
+		data->time_of_death[i] = current_time() + data->die;
+		//data->time_of_death[i] = current_time();
 		data->status[i] = 0;
 	}
-	return (philo_init(data, philo));
+	return (0);
+}
+
+//TODO
+int	arguments_check(t_data *data)
+{
+	(void)data;
+	return (0);
 }
 
 int	var_init(t_data *d, char **argv, int argc)
@@ -69,5 +90,5 @@ int	var_init(t_data *d, char **argv, int argc)
 		d->must_eat = -1;
 	d->start = current_time();
 	d->shutdown = 0;
-	return (0);
+	return (arguments_check(d));
 }

@@ -2,7 +2,7 @@
 
 int	main(int argc, char **argv)
 {
-	t_data		data;
+	t_data			data;
 	t_philosophers	*philo;
 
 	if (argc < 5 || argc > 6)
@@ -12,12 +12,15 @@ int	main(int argc, char **argv)
 	philo = malloc(sizeof(t_philosophers) * data.size);
 	if (!philo)
 		return (ERR_MALLOC);
-	if (!data_init(&data, philo))
+	if (data_init(&data))
+		return (write(2, "Error: MALLOC\n", 14));
+	if (!philo_init(&data, philo))
 		clean_threads(&data);
 	free(data.status);
 	free(data.lock);
 	free(data.forks);
 	free(data.tid);
+	free(data.time_of_death);
 	free(philo);
 	return (0);
 }

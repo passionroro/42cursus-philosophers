@@ -32,7 +32,11 @@ void	eat_and_drop(t_data *data, t_philosophers *philo, int id)
 {
 	if (data->status[id - 1] != 2 || data->shutdown == 1)
 		return ;
-	philo->time_of_death += data->die;
+	if (data->must_eat != -1)
+		philo->nb_eat += 1;
+	pthread_mutex_lock(&data->death[id - 1]);
+	data->time_of_death[id - 1] = current_time() + data->die;
+	pthread_mutex_unlock(&data->death[id - 1]);
 	print_action(id, EAT, data);
 	u_sleep(data->eat);
 	print_action(id, SLEEP, data);
@@ -64,7 +68,7 @@ void	*routine(void *data)
 			return (NULL);
 		ford_pickup(philo->data, philo->id);
 		eat_and_drop(philo->data, philo, philo->id);
-		if (death_monitor(philo, philo->data) > 0)
+		if (death_check(philo, philo->data, philo->id) > 0)
 			return (NULL);
 	}
 	return (NULL);
