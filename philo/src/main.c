@@ -13,12 +13,11 @@ int	main(int argc, char **argv)
 	if (!philo)
 		return (ERR_MALLOC);
 	if (!data_init(&data, philo))
-		return (1);
-		//return (exit_function(&philo));
-	free(data.tid);
-	free(data.forks);
-	free(data.lock);
+		clean_threads(&data);
 	free(data.status);
+	free(data.lock);
+	free(data.forks);
+	free(data.tid);
 	free(philo);
 	return (0);
 }

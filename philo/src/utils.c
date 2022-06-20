@@ -1,51 +1,31 @@
 #include "../include/philo.h"
 
-unsigned long	current_time(unsigned long start)
+long	current_time(void)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000) - start);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	u_sleep(unsigned long time, t_data *data)
+void	u_sleep(long time)
 {
-	while (current_time(data->start) < time)
+	long	start;
+
+	start = current_time();
+	while (current_time() - start < time)
 		usleep(100);
 }
 
-void	print_action(int num, int status, unsigned long start)
+void	print_action(int num, char *status, t_data *data)
 {
-	char			*str;
+	static int	shutdown = 0;
 
-	if (status == THINK)
-		str = "is thinking";
-	if (status == FORK)
-		str = "has taken a fork";
-	if (status == EAT)
-		str = "is eating";
-	if (status == DIED)
-		str = "died";
-	if (status == SLEEP)
-		str = "is sleeping";
-	printf("%ld %d %s\n", current_time(start), num, str);
-}
-
-int	ft_atoi(const char *str)
-{
-	long	nb;
-	int	i;
-
-	i = -1;
-	nb = 0;
-	while (str[++i])
-	{
-		if (str[i] >= '0' && str[i] <= '9')
-			nb = nb * 10 + str[i] - '0';
-		else
-			return (0);
-		if (nb > 2147483647 || nb < -2147483648)
-			return (0);
-	}
-	return ((int)nb);
+	pthread_mutex_lock(&data->print);
+	if (shutdown == 1)
+		return ;
+	if (!ft_strncmp(status, DIED, ft_strlen(status)))
+		shutdown = 1;
+	printf("%ld %d %s\n", current_time() - data->start, num, status);
+	pthread_mutex_unlock(&data->print);
 }
