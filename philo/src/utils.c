@@ -26,6 +26,6 @@ void	print_action(int num, char *status, t_data *data)
 		return ;
 	if (!ft_strncmp(status, DIED, ft_strlen(status)))
 		shutdown = 1;
-	printf("%ld %d %s\n", current_time() - data->start, num, status);
+	printf("%ld\t %d %s\n", current_time() - data->start, num, status);
 	pthread_mutex_unlock(&data->print);
 }

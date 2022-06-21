@@ -47,7 +47,7 @@ typedef struct s_philosophers
 
 void	*routine(void *data);
 void	ford_pickup(t_data *data, int id);
-void	eat_and_drop(t_data *data, t_philosophers *philo, int id);
+void	eat_and_drop(t_data *data, int id);
 int		var_init(t_data *d, char **argv, int argc);
 int		data_init(t_data *data);
 int		philo_init(t_data *data, t_philosophers *philo);

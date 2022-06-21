@@ -21,35 +21,36 @@ void	ford_pickup(t_data *data, int id)
 	if (data->forks[tmp_id] == 0)
 	{
 		data->forks[tmp_id] = 1;
+		pthread_mutex_lock(&data->lock[id - 1]);
 		data->status[id - 1] += 1;
+		pthread_mutex_unlock(&data->lock[id - 1]);
 		print_action(id, FORK, data);
 	}
 	pthread_mutex_unlock(&data->lock[tmp_id]);
-	usleep(100);
 }
 
-void	eat_and_drop(t_data *data, t_philosophers *philo, int id)
+void	eat_and_drop(t_data *data, int id)
 {
+	int	save;
+
 	if (data->status[id - 1] != 2 || data->shutdown == 1)
 		return ;
-	if (data->must_eat != -1)
-		philo->nb_eat += 1;
-	pthread_mutex_lock(&data->death[id - 1]);
-	data->time_of_death[id - 1] = current_time() + data->die;
-	pthread_mutex_unlock(&data->death[id - 1]);
 	print_action(id, EAT, data);
 	u_sleep(data->eat);
-	print_action(id, SLEEP, data);
-	u_sleep(data->sleep);
 	pthread_mutex_lock(&data->lock[id - 1]);
 	data->forks[id - 1] = 0;
 	data->status[id - 1] = 0;
+	data->time_of_death[id - 1] = current_time() + data->die;
 	pthread_mutex_unlock(&data->lock[id - 1]);
+	save = id;
 	if (id == data->size)
 		id = 0;
 	pthread_mutex_lock(&data->lock[id]);
 	data->forks[id] = 0;
 	pthread_mutex_unlock(&data->lock[id]);
+	print_action(save, SLEEP, data);
+	u_sleep(data->sleep);
+	print_action(save, THINK, data);
 }
 
 void	*routine(void *data)
@@ -67,7 +68,8 @@ void	*routine(void *data)
 		if (philo->data->shutdown == 1)
 			return (NULL);
 		ford_pickup(philo->data, philo->id);
-		eat_and_drop(philo->data, philo, philo->id);
+		usleep(100);
+		eat_and_drop(philo->data, philo->id);
 		if (death_check(philo, philo->data, philo->id) > 0)
 			return (NULL);
 	}
