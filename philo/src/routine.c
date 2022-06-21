@@ -35,12 +35,12 @@ void	eat_and_drop(t_data *data, int id)
 
 	if (data->status[id - 1] != 2 || data->shutdown == 1)
 		return ;
+	data->time_of_death[id - 1] = current_time() + data->die;
 	print_action(id, EAT, data);
 	u_sleep(data->eat);
 	pthread_mutex_lock(&data->lock[id - 1]);
 	data->forks[id - 1] = 0;
 	data->status[id - 1] = 0;
-	data->time_of_death[id - 1] = current_time() + data->die;
 	pthread_mutex_unlock(&data->lock[id - 1]);
 	save = id;
 	if (id == data->size)
@@ -58,7 +58,7 @@ void	*routine(void *data)
 	t_philosophers	*philo;
 
 	philo = (t_philosophers *)data;
-	if (!(philo->id % 2))
+	if (philo->id % 2)
 	{
 		print_action(philo->id, THINK, philo->data);
 		u_sleep(philo->data->eat / 2);
