@@ -49,6 +49,9 @@ void	eat_and_drop(t_data *data, int id)
 	data->forks[id] = 0;
 	pthread_mutex_unlock(&data->lock[id]);
 	print_action(save, SLEEP, data);
+	if (id % 2 == 0)
+		if (data->eat + data->sleep >= data->die)
+			return ;
 	u_sleep(data->sleep);
 	print_action(save, THINK, data);
 }

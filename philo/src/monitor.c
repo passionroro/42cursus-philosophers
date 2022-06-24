@@ -6,11 +6,17 @@ void	clean_threads(t_data *data)
 
 	i = -1;
 	while (++i < data->size)
-	{
-		pthread_mutex_destroy(&data->death[i]);
 		pthread_mutex_destroy(&data->lock[i]);
-	}
 	pthread_mutex_destroy(&data->print);
+}
+
+void	detach_threads(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->size)
+		pthread_detach(data->tid[i]);
 }
 
 int	monitor_meals(t_philosophers *philo, t_data *data, int id)
@@ -33,7 +39,9 @@ int	death_check(t_philosophers *philo, t_data *data, int id)
 		print_action(id, DIED, data);
 		data->shutdown = 1;
 		usleep(100);
+//		detach_threads(data);
 		clean_threads(data);
+		usleep(500);
 		return (1);
 	}
 	if (data->must_eat != -1)

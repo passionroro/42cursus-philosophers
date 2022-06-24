@@ -36,9 +36,6 @@ int	data_malloc(t_data *data)
 	data->lock = malloc(sizeof(pthread_mutex_t) * data->size);
 	if (!data->lock)
 		return (ERR_MALLOC);
-	data->death = malloc(sizeof(pthread_mutex_t) * data->size);
-	if (!data->death)
-		return (ERR_MALLOC);
 	data->status = malloc(sizeof(int) * data->size);
 	if (!data->status)
 		return (ERR_MALLOC);
@@ -55,20 +52,11 @@ int	data_init(t_data *data)
 	i = -1;
 	while (++i < data->size)
 	{
-		pthread_mutex_init(&data->death[i], NULL);
 		pthread_mutex_init(&data->lock[i], NULL);
 		data->forks[i] = 0;
 		data->time_of_death[i] = current_time() + data->die;
-		//data->time_of_death[i] = current_time();
 		data->status[i] = 0;
 	}
-	return (0);
-}
-
-//TODO
-int	arguments_check(t_data *data)
-{
-	(void)data;
 	return (0);
 }
 
@@ -90,5 +78,7 @@ int	var_init(t_data *d, char **argv, int argc)
 		d->must_eat = -1;
 	d->start = current_time();
 	d->shutdown = 0;
-	return (arguments_check(d));
+	if (d->size < 1)
+		return (1);
+	return (0);
 }

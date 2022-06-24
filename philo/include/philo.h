@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <stdbool.h>
 # define THINK "is thinking"
 # define FORK "has taken a fork"
 # define EAT "is eating"
@@ -34,7 +35,6 @@ typedef struct s_data
 	long			*time_of_death;
 	pthread_mutex_t	*lock;
 	pthread_mutex_t	print;
-	pthread_mutex_t	*death;
 	pthread_t		*tid;
 }			t_data;
 
