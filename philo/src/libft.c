@@ -51,6 +51,8 @@ int	ft_atoi(const char *str)
 		if (nb > 2147483647 || nb < -2147483648)
 			return (-1);
 	}
+	if (nb >= 2147483640)
+		return (214748364);
 	return ((int)nb);
 }
 
