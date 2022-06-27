@@ -23,10 +23,8 @@
 int	philo_init(t_data *data, t_philosophers *philo)
 {
 	int	i;
-	int	size;
 
 	i = -1;
-	size = data->size;
 	while (++i < data->size)
 	{
 		philo[i].id = i + 1;
@@ -34,10 +32,6 @@ int	philo_init(t_data *data, t_philosophers *philo)
 		if (pthread_create(&data->tid[i], NULL, routine, (void *)&philo[i]))
 			return (ERR_THREAD);
 	}
-	i = -1;
-	while (++i < size)
-		if (pthread_join(data->tid[i], NULL))
-			return (ERR_JOIN);
 	return (0);
 }
 

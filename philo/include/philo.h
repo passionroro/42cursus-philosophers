@@ -16,7 +16,6 @@
 enum	e_rror
 {
 	ERR_THREAD = 1,
-	ERR_JOIN,
 	ERR_MALLOC,
 	ERR_MUTEX,
 };
