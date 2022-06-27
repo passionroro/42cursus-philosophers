@@ -46,12 +46,9 @@ int	data_malloc(t_data *data)
 	data->tid = malloc(sizeof(pthread_t) * data->size);
 	if (!data->tid)
 		return (ERR_MALLOC);
-	if (data->must_eat != -1)
-	{
-		data->meals = malloc(sizeof(int) * data->size);
-		if (!data->meals)
-			return (ERR_MALLOC);
-	}
+	data->meals = malloc(sizeof(int) * data->size);
+	if (!data->meals)
+		return (ERR_MALLOC);
 	data->time_of_death = malloc(sizeof(long) * data->size);
 	if (!data->time_of_death)
 		return (ERR_MALLOC);
