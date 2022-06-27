@@ -17,6 +17,7 @@ int	main(int argc, char **argv)
 	if (!philo_init(&data, philo))
 		clean_threads(&data);
 	free(data.status);
+	free(data.meals);
 	free(data.lock);
 	free(data.forks);
 	free(data.tid);

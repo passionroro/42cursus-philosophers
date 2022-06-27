@@ -1,5 +1,25 @@
 #include "../include/philo.h"
 
+/*
+ * var_init() : converts the data from strings to integers.
+ * - checks if there is at least one philo and no negative numbers.
+ *
+ * data_init() : initialization.
+ * - tid : array of thread IDs
+ * - meals : array of meals eaten. init to zero and incremented
+ *   after every meals.
+ * - time_of_death : array of long int. incremented after every meal.
+ *   if time_of_death < current_time, the philo has died.
+ * - lock : array of pthread_mutex
+ * - forks : array of int. one if the philo has a fork in its hand.
+ *   can be left hand or right hand.
+ * - status : number of forks in the hands of a philosopher.
+ *   if status of a philo is two then he can eat.
+ *
+ * philo_init() : start of the program
+ * - gives the id of the philo and a pointer to all its data.
+*/
+
 int	philo_init(t_data *data, t_philosophers *philo)
 {
 	int	i;
@@ -10,7 +30,6 @@ int	philo_init(t_data *data, t_philosophers *philo)
 	while (++i < data->size)
 	{
 		philo[i].id = i + 1;
-		philo[i].nb_eat = 0;
 		philo[i].data = data;
 		if (pthread_create(&data->tid[i], NULL, routine, (void *)&philo[i]))
 			return (ERR_THREAD);
@@ -27,6 +46,12 @@ int	data_malloc(t_data *data)
 	data->tid = malloc(sizeof(pthread_t) * data->size);
 	if (!data->tid)
 		return (ERR_MALLOC);
+	if (data->must_eat != -1)
+	{
+		data->meals = malloc(sizeof(int) * data->size);
+		if (!data->meals)
+			return (ERR_MALLOC);
+	}
 	data->time_of_death = malloc(sizeof(long) * data->size);
 	if (!data->time_of_death)
 		return (ERR_MALLOC);
@@ -56,6 +81,7 @@ int	data_init(t_data *data)
 		data->forks[i] = 0;
 		data->time_of_death[i] = current_time() + data->die;
 		data->status[i] = 0;
+		data->meals[i] = 0;
 	}
 	return (0);
 }

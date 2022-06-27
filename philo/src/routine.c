@@ -40,6 +40,8 @@ void	eat_and_drop(t_data *data, int id)
 	u_sleep(data->eat);
 	pthread_mutex_lock(&data->lock[id - 1]);
 	data->forks[id - 1] = 0;
+	if (data->must_eat != -1)
+		data->meals[id - 1] += 1;
 	data->status[id - 1] = 0;
 	pthread_mutex_unlock(&data->lock[id - 1]);
 	save = id;

@@ -32,6 +32,7 @@ typedef struct s_data
 	int				shutdown;
 	int				*forks;
 	int				*status;
+	int				*meals;
 	long			*time_of_death;
 	pthread_mutex_t	*lock;
 	pthread_mutex_t	print;
@@ -41,7 +42,6 @@ typedef struct s_data
 typedef struct s_philosophers 
 {
 	int			id;
-	int			nb_eat;
 	t_data		*data;
 }		t_philosophers;
 

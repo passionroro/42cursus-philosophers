@@ -21,7 +21,8 @@ void	detach_threads(t_data *data)
 
 int	monitor_meals(t_philosophers *philo, t_data *data, int id)
 {
-	if (philo[id - 1].nb_eat < data->must_eat)
+	(void)philo;
+	if (data->meals[id - 1] < data->must_eat)
 		return (0);
 	data->shutdown = 1;
 	usleep(500);
