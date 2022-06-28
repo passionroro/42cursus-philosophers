@@ -33,14 +33,16 @@ In the struct `t_data` you will find the structure of my code, containing :
 	{
 		if (philo->data->shutdown == 1)
 			return (NULL);
+		//try to pick up two forks
 		ford_pickup(philo->data, philo->id);
+		//if philo->id has 2 forks, he eats, changes his time_of_death and goes to sleep
 		eat_and_drop(philo->data, philo->id);
 	}
 ```
 
 #### TRYING TO PICK UP FORKS
 ```c
-    //locking to avoid multiple philos picking up forks
+    	//locking to avoid multiple philos picking up forks
 	pthread_mutex_lock(&data->lock[id - 1]);
 	if (data->forks[id - 1] == 0)
 	{
