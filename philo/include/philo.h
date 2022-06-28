@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/28 11:32:42 by rohoarau          #+#    #+#             */
+/*   Updated: 2022/06/28 11:33:45 by rohoarau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -20,7 +32,7 @@ enum	e_rror
 	ERR_MUTEX,
 };
 
-typedef struct s_data 
+typedef struct s_data
 {
 	int				size;
 	int				die;
@@ -38,7 +50,7 @@ typedef struct s_data
 	pthread_t		*tid;
 }			t_data;
 
-typedef struct s_philosophers 
+typedef struct s_philosophers
 {
 	int			id;
 	t_data		*data;
@@ -52,7 +64,7 @@ int		data_init(t_data *data);
 int		philo_init(t_data *data, t_philosophers *philo);
 void	print_action(int num, char *status, t_data *data);
 int		ft_atoi(const char *str);
-long 	current_time(void);
+long	current_time(void);
 void	u_sleep(long time);
 void	*destroy_philo(t_data *data, int id);
 int		ft_strlen(const char *str);
@@ -61,6 +73,6 @@ int		death_check(t_data *data);
 void	clean_threads(t_data *data);
 void	free_data(t_philosophers *philo, t_data *data);
 void	mutex_destroy(t_data *data);
-int	philo_join(t_data *data);
+int		philo_join(t_data *data);
 
 #endif

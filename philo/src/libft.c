@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/28 11:32:02 by rohoarau          #+#    #+#             */
+/*   Updated: 2022/06/28 11:34:15 by rohoarau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 int	ft_strlen(const char *str)
@@ -38,7 +50,7 @@ int	ft_strncmp(const char *s1, const char *s2, int n)
 int	ft_atoi(const char *str)
 {
 	long	nb;
-	int	i;
+	int		i;
 
 	i = -1;
 	nb = 0;
@@ -51,9 +63,5 @@ int	ft_atoi(const char *str)
 		if (nb > 2147483647 || nb < -2147483648)
 			return (-1);
 	}
-//	if (nb >= 2147483640)
-//		return (214748364);
 	return ((int)nb);
 }
-
-
