@@ -52,3 +52,22 @@ In the struct `t_data` you will find the structure of my code, containing :
 	pthread_mutex_unlock(&data->lock[id - 1]);
 	//don't forget to unlock
 ```
+## Testing ([source](https://github.com/iciamyplant/Philosophers))
+| test | expected result |
+|----------|-------|
+| ./philo 1 200 200 200 | philo 1 only takes a fork and dies after 200 ms |
+| ./philo 2 800 200 200 | nobody dies |
+| ./philo 5 800 200 200 | nobody dies |
+| ./philo 5 800 200 200 7 | the simulation stops when each philo has eaten 7 times |
+| ./philo 4 410 200 200 | nobody dies |
+| ./philo 4 310 200 200 | one philo dies |
+| ./philo 4 500 200 1.2 | invalid argument |
+| ./philo 4 0 200 200 | invalid argument |
+| ./philo 4 -500 200 200 | invalid argument |
+| ./philo 4 500 200 2147483647 | a philo dies after 500 ms | 
+| ./philo 4 -500 200 200 | invalid argument |
+| ./philo 4 2147483647 200 200 | nobody dies |
+| ./philo 4 214748364732 200 200 | invalid argument|
+| ./philo 4 200 210 200 | a philo dies, must show death before 210 ms |
+
+
