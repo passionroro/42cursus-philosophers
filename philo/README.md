@@ -4,7 +4,7 @@ This project is an introduction to threading and processes, and how to work on t
 ## The problem
 N philosophers are dining together at the same table with N forks. For the program to run proprerly, each philosopher must take 2 forks, eat and go to sleep. If a philosopher doesn't eat within a certain time, he dies.
 ### How the code must work
-As we must use threads, every philosopher are trying to pick up forks at the same times. Therefore, we must use locks to prevent them from picking two forks at the same time.
+As we must use threads, every philosophers are trying to pick up forks at the same times. Therefore, we must use locks to prevent them from picking two forks at the same time.
 ### Compiling
 `git clone https://github.com/passionroro/42cursus-philosophers.git`\
 `cd 42cursus-philosophers/philo`\
