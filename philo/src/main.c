@@ -14,14 +14,12 @@ int	main(int argc, char **argv)
 		return (ERR_MALLOC);
 	if (data_init(&data))
 		return (write(2, "Error: MALLOC\n", 14));
-	if (!philo_init(&data, philo))
-		clean_threads(&data);
-	free(data.status);
-	free(data.meals);
-	free(data.lock);
-	free(data.forks);
-	free(data.tid);
-	free(data.time_of_death);
-	free(philo);
+	if (philo_init(&data, philo) == 1)
+		return (write(2, "Error: THREADS\n", 15));
+	death_check(&data);
+	mutex_destroy(&data);
+	if (data.must_eat != -1)
+		philo_join(&data);
+	free_data(philo, &data);
 	return (0);
 }

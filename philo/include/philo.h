@@ -57,7 +57,10 @@ void	u_sleep(long time);
 void	*destroy_philo(t_data *data, int id);
 int		ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, int n);
-int		death_check(t_philosophers *philo, t_data *data, int id);
+int		death_check(t_data *data);
 void	clean_threads(t_data *data);
+void	free_data(t_philosophers *philo, t_data *data);
+void	mutex_destroy(t_data *data);
+int	philo_join(t_data *data);
 
 #endif

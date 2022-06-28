@@ -51,9 +51,6 @@ void	eat_and_drop(t_data *data, int id)
 	data->forks[id] = 0;
 	pthread_mutex_unlock(&data->lock[id]);
 	print_action(save, SLEEP, data);
-	if (id % 2 == 0)
-		if (data->eat + data->sleep >= data->die)
-			return ;
 	u_sleep(data->sleep);
 	print_action(save, THINK, data);
 }
@@ -73,10 +70,7 @@ void	*routine(void *data)
 		if (philo->data->shutdown == 1)
 			return (NULL);
 		ford_pickup(philo->data, philo->id);
-		usleep(100);
 		eat_and_drop(philo->data, philo->id);
-		if (death_check(philo, philo->data, philo->id) > 0)
-			return (NULL);
 	}
 	return (NULL);
 }

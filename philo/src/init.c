@@ -95,7 +95,7 @@ int	var_init(t_data *d, char **argv, int argc)
 		d->must_eat = -1;
 	d->start = current_time();
 	d->shutdown = 0;
-	if (d->size < 1)
+	if (d->size < 1 || d->eat < 1 || d->sleep < 1 || d->die < 1)
 		return (1);
 	return (0);
 }

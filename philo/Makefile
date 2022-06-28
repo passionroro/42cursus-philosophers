@@ -6,7 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/06/20 13:23:42 by rohoarau         ###   ########.fr        #
+#    Updated: 2022/06/28 10:21:49 by rohoarau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRCS		=	main.c				\
 				init.c				\
 				routine.c			\
 				libft.c				\
-				monitor.c
+				monitor.c			\
+				cleaning.c
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 
