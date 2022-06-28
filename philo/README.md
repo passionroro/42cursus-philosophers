@@ -6,8 +6,8 @@ N philosophers are dining together at the same table with N forks. For the progr
 ### How the code must work
 As we must use threads, every philosopher are trying to pick up forks at the same times. Therefore, we must use locks to prevent them from picking two forks at the same time.
 ### Compiling
-`git clone https://github.com/passionroro/42cursus-philosophers.git`
-`cd 42cursus-philosophers/philo`
+`git clone https://github.com/passionroro/42cursus-philosophers.git`\
+`cd 42cursus-philosophers/philo`\
 Using make to compile :
 `make`
 Executing the program `./philo` with the following parameters :
